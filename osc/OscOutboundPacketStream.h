@@ -72,10 +72,15 @@ public:
         : Exception( w ) {}
 };
 
+// Allow callees to define a different buffer size by defining this constant before including the header.
+// Otherwise we define a default here.
+#ifndef OSCPACK_OPS_BUFFER_SIZE
+#define OSCPACK_OPS_BUFFER_SIZE 1024
+#endif
 
 class OutboundPacketStream{
 public:
-	OutboundPacketStream( char *buffer, std::size_t capacity );
+	OutboundPacketStream();
 	~OutboundPacketStream();
 
     void Clear();
@@ -125,7 +130,6 @@ public:
     OutboundPacketStream& operator<<( const ArrayTerminator& rhs );
 
 private:
-
     char *BeginElement( char *beginPtr );
     void EndElement( char *endPtr );
 
@@ -134,6 +138,7 @@ private:
     void CheckForAvailableMessageSpace( const char *addressPattern );
     void CheckForAvailableArgumentSpace( std::size_t argumentLength );
 
+    char buffer_[OSCPACK_OPS_BUFFER_SIZE];
     char *data_;
     char *end_;
 
