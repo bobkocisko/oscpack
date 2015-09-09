@@ -152,10 +152,9 @@ static inline std::size_t RoundUp4( std::size_t x )
 }
 
 
-OutboundPacketStream::OutboundPacketStream()
-    : buffer_()
-    , data_( buffer_ )
-    , end_( data_ + OSCPACK_OPS_BUFFER_SIZE )
+OutboundPacketStream::OutboundPacketStream( char *buffer, std::size_t capacity )
+    : data_( buffer )
+    , end_( data_ + capacity )
     , typeTagsCurrent_( end_ )
     , messageCursor_( data_ )
     , argumentCurrent_( data_ )

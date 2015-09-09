@@ -46,19 +46,19 @@ using ::__strcmp__;  // avoid error: E2316 '__strcmp__' is not a member of 'std'
 }
 #endif
 
-#define OSCPACK_OPS_BUFFER_SIZE 1536
-
 #include "osc/OscOutboundPacketStream.h"
 
 #include "ip/UdpSocket.h"
 #include "ip/IpEndpointName.h"
 
+#define IP_MTU_SIZE 1536
 
 namespace osc{
     
 void RunSendTests( const IpEndpointName& host )
 {
-    osc::OutboundPacketStream p;
+    char buffer[IP_MTU_SIZE];
+    osc::OutboundPacketStream p( buffer, IP_MTU_SIZE );
 	UdpTransmitSocket socket( host );
 
     p.Clear();
