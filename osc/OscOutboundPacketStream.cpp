@@ -678,6 +678,10 @@ OutboundPacketStream& OutboundPacketStream::operator<<( const ArrayTerminator& r
     return *this;
 }
 
+StackOutboundPacketStream::StackOutboundPacketStream()
+    : OutboundPacketStream(buffer_, OSCPACK_SOPS_BUFFER_SIZE) {
+
+}
 } // namespace osc
 
 

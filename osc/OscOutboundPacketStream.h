@@ -149,6 +149,21 @@ private:
     bool messageIsInProgress_;
 };
 
+// Allow callees to define the buffer size used; or else we define the default here.
+#ifndef OSCPACK_SOPS_BUFFER_SIZE
+#define OSCPACK_SOPS_BUFFER_SIZE 1024
+#endif
+
+    // StackOutboundPacketStream: stack-based implementation of OutboundPacketStream.
+    // If you wish to adjust the size of the buffer used, define OSCPACK_SOPS_BUFFER_SIZE
+    // *before* including this header file.
+class StackOutboundPacketStream : public OutboundPacketStream{
+public:
+    StackOutboundPacketStream();
+
+private:
+    char buffer_[OSCPACK_SOPS_BUFFER_SIZE];
+};
 } // namespace osc
 
 #endif /* INCLUDED_OSCPACK_OSCOUTBOUNDPACKETSTREAM_H */
