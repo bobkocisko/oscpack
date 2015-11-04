@@ -304,6 +304,10 @@ std::size_t UdpSocket::ReceiveFrom( IpEndpointName& remoteEndpoint, char *data, 
 	return impl_->ReceiveFrom( remoteEndpoint, data, size );
 }
 
+int UdpSocket::Socket()
+{
+	return impl_->Socket();
+}
 
 struct AttachedTimerListener{
 	AttachedTimerListener( int id, int p, TimerListener *tl )
@@ -424,9 +428,9 @@ public:
             for( std::vector< std::pair< PacketListener*, UdpSocket* > >::iterator i = socketListeners_.begin();
                     i != socketListeners_.end(); ++i ){
 
-                if( fdmax < i->second->impl_->Socket() )
-                    fdmax = i->second->impl_->Socket();
-                FD_SET( i->second->impl_->Socket(), &masterfds );
+                if( fdmax < i->second->Socket() )
+                    fdmax = i->second->Socket();
+                FD_SET( i->second->Socket(), &masterfds );
             }
 
 
@@ -488,7 +492,7 @@ public:
                 for( std::vector< std::pair< PacketListener*, UdpSocket* > >::iterator i = socketListeners_.begin();
                         i != socketListeners_.end(); ++i ){
 
-                    if( FD_ISSET( i->second->impl_->Socket(), &tempfds ) ){
+                    if( FD_ISSET( i->second->Socket(), &tempfds ) ){
 
                         std::size_t size = i->second->ReceiveFrom( remoteEndpoint, data, MAX_BUFFER_SIZE );
                         if( size > 0 ){

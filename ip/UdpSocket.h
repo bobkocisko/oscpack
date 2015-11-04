@@ -80,8 +80,6 @@ class UdpSocket{
     class Implementation;
     Implementation *impl_;
     
-	friend class SocketReceiveMultiplexer::Implementation;
-    
 public:
 
 	// Ctor throws std::runtime_error if there's a problem
@@ -126,6 +124,9 @@ public:
 	bool IsBound() const;
 
     std::size_t ReceiveFrom( IpEndpointName& remoteEndpoint, char *data, std::size_t size );
+
+	// Return the underlying socket
+	int Socket();
 };
 
 
